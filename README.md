@@ -30,49 +30,49 @@ This project provides a comprehensive solution for analyzing hotel booking data.
    cd hotel-analytics-system
 
 2. **Create a Virtual Environment**
-- **On Windows:**
-    ```bash
-    python -m venv venv
-    .\venv\Scripts\activate
-
-- **On macOS/Linux:**
-
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
+   - **On Windows:**
+       ```bash
+       python -m venv venv
+       .\venv\Scripts\activate
+   
+   - **On macOS/Linux:**
+   
+       ```bash
+       python3 -m venv venv
+       source venv/bin/activate
 
 3. **Install Dependencies**
-- Update pip to the latest version:
-    ```bash
-    python -m pip install --upgrade pip
+   - Update pip to the latest version:
+       ```bash
+       python -m pip install --upgrade pip
 
-- Install required packages:
-    ```bash
-    pip install -r requirements.txt
+   - Install required packages:
+       ```bash
+       pip install -r requirements.txt
 
-- If you encounter timeouts, increase the timeout:
-    ```bash
-    pip install -r requirements.txt --timeout 100
+   - If you encounter timeouts, increase the timeout:
+       ```bash
+       pip install -r requirements.txt --timeout 100
 
 4. **Download Sample Data**
-- Place a hotel_bookings.csv file in the data/ directory (e.g., from Kaggle Hotel Booking Demand).
-- Alternatively, use the provided sample data/sample_hotel_bookings.csv.
+   - Place a hotel_bookings.csv file in the data/ directory (e.g., from Kaggle Hotel Booking Demand).
+   - Alternatively, use the provided sample data/sample_hotel_bookings.csv.
 
 5. **Run the Application**
-- Execute the main script:
-    ```bash
-    python hotel_analytics.py
+   - Execute the main script:
+       ```bash
+       python hotel_analytics.py
 
-- Test queries interactively or use the provided test suite (see below).
+   - Test queries interactively or use the provided test suite (see below).
 
 6. **(Optional) Run the API**
-- Start the FastAPI server:
-    ```bash
-    uvicorn hotel_analytics_api:app --reload
-- Access at http://127.0.0.1:8000.
+   - Start the FastAPI server:
+       ```bash
+       uvicorn hotel_analytics_api:app --reload
+   - Access at http://127.0.0.1:8000.
 
 ## GitHub Repository Structure
-    ```text
+    
     hotel-analytics-system/
     ├── data/
     │   ├── sample_hotel_bookings.csv   # Sample dataset
@@ -141,33 +141,33 @@ Stored in tests/test_queries.json:
 ## Implementation Choices & Challenges
 ### Implementation Choices
 1. Modular Design:
-- Separated into DataProcessor, AnalyticsEngine, and RAGEngine for maintainability and scalability.
-- Allows independent testing and future enhancements (e.g., adding new analytics).
+   - Separated into DataProcessor, AnalyticsEngine, and RAGEngine for maintainability and scalability.
+   - Allows independent testing and future enhancements (e.g., adding new analytics).
 2. RAG with LLM:
-- Used FAISS for efficient vector search of booking data context.
-- Integrated GPT-Neo-125M (via transformers) for natural language responses due to its lightweight nature and open-source availability.
+   - Used FAISS for efficient vector search of booking data context.
+   - Integrated GPT-Neo-125M (via transformers) for natural language responses due to its lightweight nature and open-source availability.
 3. SQLite Database:
-- Chosen for lightweight storage and querying of preprocessed data, avoiding repeated CSV parsing.
+   - Chosen for lightweight storage and querying of preprocessed data, avoiding repeated CSV parsing.
 4. FastAPI:
-- Included as an optional API layer for potential web deployment, though not fully utilized in this version.
+   - Included as an optional API layer for potential web deployment, though not fully utilized in this version.
 5. Dependencies:
-- Selected pandas for data manipulation, sentence-transformers for embeddings, and faiss-cpu for vector indexing due to their robustness and community support.
+   - Selected pandas for data manipulation, sentence-transformers for embeddings, and faiss-cpu for vector indexing due to their robustness and community support.
 ### Challenges
 1. LLM Integration:
-- Challenge: GPT-Neo-125M generates verbose or off-topic responses without fine-tuning.
-- Solution: Combined rule-based analytics with LLM for structured outputs, using RAG to provide relevant context.
+   - Challenge: GPT-Neo-125M generates verbose or off-topic responses without fine-tuning.
+   - Solution: Combined rule-based analytics with LLM for structured outputs, using RAG to provide relevant context.
 2. Dependency Installation:
-- Challenge: Building pandas from source caused timeouts or compilation errors on some systems.
-- Solution: Recommended virtual environments and precompiled wheels; added timeout options in setup instructions.
+   - Challenge: Building pandas from source caused timeouts or compilation errors on some systems.
+   - Solution: Recommended virtual environments and precompiled wheels; added timeout options in setup instructions.
 3. Data Preprocessing:
-- Challenge: Handling missing or inconsistent date formats in booking data.
-- Solution: Robust datetime parsing with errors='coerce' and median/mode imputation for missing values.
+   - Challenge: Handling missing or inconsistent date formats in booking data.
+   - Solution: Robust datetime parsing with errors='coerce' and median/mode imputation for missing values.
 4. Performance:
-- Challenge: Embedding large datasets with FAISS slowed initialization.
-- Solution: Sampled data (1000 rows) for testing; full dataset support requires optimization (e.g., batch processing).
+   - Challenge: Embedding large datasets with FAISS slowed initialization.
+   - Solution: Sampled data (1000 rows) for testing; full dataset support requires optimization (e.g., batch processing).
 5. Scalability:
-- Challenge: Current design processes queries synchronously.
-- Future Work: Add asynchronous query handling with FastAPI or multiprocessing for larger datasets.
+   - Challenge: Current design processes queries synchronously.
+   - Future Work: Add asynchronous query handling with FastAPI or multiprocessing for larger datasets.
 ## Contributing
 - Fork the repository, make changes, and submit a pull request.
 - Report issues or suggest features via GitHub Issues.
